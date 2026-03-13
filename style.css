@@ -283,14 +283,6 @@ ul, ol {
   z-index: 1;
   pointer-events: none; /* let text/buttons remain clickable */
   overflow: visible;
-
-  /* Fade in when loaded */
-  opacity: 0;
-  transition: opacity 0.8s ease;
-}
-
-.spline-fullbleed.loaded {
-  opacity: 1;
 }
 
 .spline-fullbleed spline-viewer {
@@ -895,15 +887,6 @@ ul, ol {
    MOBILE RESPONSIVE
    ============================================ */
 @media (max-width: 1024px) {
-  .hero .container {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-
-  .hero-visual {
-    height: 400px;
-  }
-
   .services-grid,
   .portfolio-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -912,6 +895,11 @@ ul, ol {
   .footer-grid {
     grid-template-columns: 1fr 1fr;
     gap: 32px;
+  }
+
+  .spline-fullbleed {
+    top: -60px;
+    height: calc(100% + 60px);
   }
 }
 
@@ -957,8 +945,8 @@ ul, ol {
     gap: 24px;
   }
 
-  .hero-visual {
-    height: 300px;
+  .spline-fullbleed {
+    display: none;
   }
 
   .services-grid,
