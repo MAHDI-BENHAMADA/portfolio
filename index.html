@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Web Design for Coaches | Convert More Clients</title>
+  <meta name="description" content="I help coaches stand out online with stunning landing pages and websites that convert visitors into paying clients. Premium web design, built for results.">
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Spline viewer web component -->
+  <script type="module" src="https://unpkg.com/@splinetool/viewer/build/spline-viewer.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ====== NAVBAR ====== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="#" class="nav-logo">studio<span>.dev</span></a>
+
+      <div class="nav-links" id="nav-links">
+        <a href="#services">Services</a>
+        <a href="#work">Work</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#contact" class="nav-cta">Let's Talk</a>
+      </div>
+
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div class="nav-overlay" id="nav-overlay"></div>
+  </nav>
+
+  <!-- ====== HERO ====== -->
+  <section class="hero" id="hero">
+    <!-- Spline 3D — full-bleed background layer behind hero + navbar -->
+    <div class="spline-fullbleed" id="spline-bg">
+      <spline-viewer
+        id="spline-viewer"
+        url="https://prod.spline.design/rKRbcI-iicaHD1RB/scene.splinecode"
+        background="transparent">
+      </spline-viewer>
+    </div>
+
+    <!-- Fallback for mobile / low-end devices -->
+    <div class="spline-fallback" id="spline-fallback"></div>
+
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="dot"></span>
+          Available for new projects
+        </div>
+
+        <h1 class="hero-title">
+          I help coaches <span class="highlight">convert more clients</span> with stunning websites
+        </h1>
+
+        <p class="hero-description">
+          Stop losing leads to a mediocre website. I design high-converting landing pages and websites that make you look as professional as you are — so your ideal clients say yes.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#contact" class="btn-primary">
+            Book a Free Call
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a href="#work" class="btn-secondary">See My Work</a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat">
+            <h3 data-count="50+">0</h3>
+            <p>Projects Delivered</p>
+          </div>
+          <div class="stat">
+            <h3 data-count="30+">0</h3>
+            <p>Happy Coaches</p>
+          </div>
+          <div class="stat">
+            <h3 data-count="3x">0</h3>
+            <p>Avg. Conversion Lift</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== LOGOS / SOCIAL PROOF ====== -->
+  <section class="logos-section reveal">
+    <div class="container">
+      <p class="logos-label">Trusted by coaches & consultants worldwide</p>
+      <div class="logos-grid">
+        <span class="logo-item">CoachHub</span>
+        <span class="logo-item">MindShift</span>
+        <span class="logo-item">PeakPerform</span>
+        <span class="logo-item">ThriveLab</span>
+        <span class="logo-item">EmpowerU</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== SERVICES ====== -->
+  <section class="section-padding" id="services">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">What I Do</span>
+        <h2 class="section-title">Everything you need to <span class="gradient-text">stand out</span> online</h2>
+        <p class="section-subtitle">From a single landing page to a full brand overhaul — I handle the design so you can focus on coaching.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card reveal reveal-delay-1">
+          <div class="service-icon">🚀</div>
+          <h3>Landing Pages</h3>
+          <p>High-converting, single-page designs built to capture leads and sell your programs — fast.</p>
+          <ul class="service-features">
+            <li>Conversion-optimized layout</li>
+            <li>Mobile-first responsive design</li>
+            <li>Fast load times</li>
+          </ul>
+        </div>
+
+        <div class="service-card reveal reveal-delay-2">
+          <div class="service-icon">🎨</div>
+          <h3>Full Websites</h3>
+          <p>Multi-page websites that showcase your expertise, build trust, and turn visitors into clients.</p>
+          <ul class="service-features">
+            <li>Custom multi-page design</li>
+            <li>Booking & contact integration</li>
+            <li>SEO-optimized structure</li>
+          </ul>
+        </div>
+
+        <div class="service-card reveal reveal-delay-3">
+          <div class="service-icon">📈</div>
+          <h3>Conversion Optimization</h3>
+          <p>Already have a site? I'll audit it and redesign key pages to dramatically increase your conversion rate.</p>
+          <ul class="service-features">
+            <li>UX & conversion audit</li>
+            <li>A/B testing strategies</li>
+            <li>Copywriting improvements</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== PORTFOLIO / WORK ====== -->
+  <section class="section-padding" id="work" style="background: var(--bg-secondary);">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">My Work</span>
+        <h2 class="section-title">Projects that <span class="gradient-text">drive results</span></h2>
+        <p class="section-subtitle">Real designs I've built for real coaches. Every project is crafted to convert.</p>
+      </div>
+
+      <div class="portfolio-grid">
+        <div class="portfolio-card reveal reveal-delay-1">
+          <div class="portfolio-card-image">
+            <img src="assets/portfolio-1.png" alt="FitCoach Pro landing page design" loading="lazy">
+          </div>
+          <div class="portfolio-card-info">
+            <h3>FitCoach Pro</h3>
+            <p>Landing page for a fitness coaching program — 3.2x conversion uplift</p>
+            <div class="portfolio-card-tags">
+              <span class="tag">Landing Page</span>
+              <span class="tag">Fitness</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-card reveal reveal-delay-2">
+          <div class="portfolio-card-image">
+            <img src="assets/portfolio-2.png" alt="Inner Compass life coaching website" loading="lazy">
+          </div>
+          <div class="portfolio-card-info">
+            <h3>Inner Compass</h3>
+            <p>Full website redesign for a life coaching practice — bookings up 85%</p>
+            <div class="portfolio-card-tags">
+              <span class="tag">Website</span>
+              <span class="tag">Life Coach</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-card reveal reveal-delay-3">
+          <div class="portfolio-card-image">
+            <img src="assets/portfolio-3.png" alt="ScaleUp Academy business coaching funnel" loading="lazy">
+          </div>
+          <div class="portfolio-card-info">
+            <h3>ScaleUp Academy</h3>
+            <p>Sales funnel for a business coach — 2.8x increase in lead capture</p>
+            <div class="portfolio-card-tags">
+              <span class="tag">Funnel</span>
+              <span class="tag">Business</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== TESTIMONIALS ====== -->
+  <section class="section-padding" id="testimonials">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Testimonials</span>
+        <h2 class="section-title">What coaches <span class="gradient-text">say about me</span></h2>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal reveal-delay-1">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"My old website was embarrassing. After the redesign, I started getting DMs saying 'your website looks so professional' — and bookings went through the roof. Worth every penny."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">S</div>
+            <div class="testimonial-author-info">
+              <h4>Sarah Mitchell</h4>
+              <p>Health & Wellness Coach</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal reveal-delay-2">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"I was skeptical about investing in a new landing page, but the results spoke for themselves. Conversion rate tripled in the first month. This is someone who truly understands coaches."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">M</div>
+            <div class="testimonial-author-info">
+              <h4>Marcus Rivera</h4>
+              <p>Business Strategy Coach</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal reveal-delay-1">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"The whole process was seamless. Great communication, fast turnaround, and a design that actually represents my brand. My clients now see me as the premium coach I am."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">A</div>
+            <div class="testimonial-author-info">
+              <h4>Amara Johnson</h4>
+              <p>Mindset & Performance Coach</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal reveal-delay-2">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"I've worked with other designers but never found someone who really gets the coaching space. The site doesn't just look good — it sells. My email list grew 4x."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">J</div>
+            <div class="testimonial-author-info">
+              <h4>James Thornton</h4>
+              <p>Executive Leadership Coach</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== CTA ====== -->
+  <section class="cta-section" id="contact">
+    <div class="container">
+      <div class="cta-box reveal">
+        <h2>Ready to <span class="gradient-text">stand out</span> online?</h2>
+        <p>Book a free discovery call and let's talk about turning your website into your best salesperson.</p>
+        <a href="#" class="btn-primary" onclick="return false;">
+          Book Your Free Call
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="nav-logo">studio<span>.dev</span></a>
+          <p>Premium web design for coaches who want to look professional and convert more clients online.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Pages</h4>
+          <a href="#services">Services</a>
+          <a href="#work">Work</a>
+          <a href="#testimonials">Testimonials</a>
+          <a href="#contact">Contact</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Services</h4>
+          <a href="#services">Landing Pages</a>
+          <a href="#services">Full Websites</a>
+          <a href="#services">CRO & Redesign</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <a href="#">Twitter / X</a>
+          <a href="#">Instagram</a>
+          <a href="#">LinkedIn</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 studio.dev — All rights reserved.</p>
+        <div class="footer-socials">
+          <a href="#" aria-label="Twitter">𝕏</a>
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="LinkedIn">in</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+</body>
+</html>
