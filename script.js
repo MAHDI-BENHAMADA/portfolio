@@ -86,12 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const splineViewer = document.getElementById('spline-viewer');
 
   function shouldLoadSpline() {
-    const isMobile = window.innerWidth < 768;
     const isLowEnd = navigator.hardwareConcurrency <= 2;
     const testCanvas = document.createElement('canvas');
     const gl = testCanvas.getContext('webgl2') || testCanvas.getContext('webgl');
     const noWebGL = !gl;
-    return !isMobile && !isLowEnd && !noWebGL;
+    return !isLowEnd && !noWebGL;
   }
 
   if (splineBg && splineViewer) {
