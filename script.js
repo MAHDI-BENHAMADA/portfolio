@@ -98,13 +98,13 @@ document.addEventListener('DOMContentLoaded', () => {
       splineBg.style.display = 'none';
       if (splineFallback) splineFallback.style.display = 'block';
     } else {
-      // Load timeout — show fallback if Spline hasn't loaded in 10s
+      // Load timeout — show fallback if Spline hasn't loaded in 5s
       const timeout = setTimeout(() => {
         if (splineFallback) {
           splineFallback.style.display = 'block';
           splineFallback.style.opacity = '1';
         }
-      }, 10000);
+      }, 5000);
 
       splineViewer.addEventListener('load', () => {
         clearTimeout(timeout);

@@ -276,10 +276,10 @@ ul, ol {
 /* Spline 3D — full-bleed, non-interactive visual backdrop */
 .spline-fullbleed {
   position: absolute;
-  top: -160px; /* bleeds further up behind the navbar */
+  top: 0; /* starts at hero top to shift the 3D visual lower */
   left: 0;
   width: 100%;
-  height: calc(100% + 160px);
+  height: 100%;
   z-index: 1;
   pointer-events: none; /* purely decorative — no mouse interaction */
   overflow: hidden;
@@ -290,8 +290,16 @@ ul, ol {
   height: 100%;
   display: block;
   pointer-events: none; /* disable all 3D interaction */
-  transform: scale(1.3); /* zoom in the scene */
+  transform: scale(1.9); /* zoom in the scene */
   transform-origin: center center;
+  opacity: 0;
+  animation: fadeInSpline 0.8s ease-out 0.3s forwards;
+}
+
+@keyframes fadeInSpline {
+  to {
+    opacity: 1;
+  }
 }
 
 /* Fallback for mobile/low-end */
@@ -622,8 +630,15 @@ ul, ol {
    ============================================ */
 .portfolio-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  grid-template-columns: minmax(0, 0.55fr) minmax(0, 0.45fr);
+  gap: 28px;
+  align-items: stretch;
+}
+
+.portfolio-cards-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .portfolio-card {
@@ -645,6 +660,37 @@ ul, ol {
   width: 100%;
   aspect-ratio: 16 / 10;
   overflow: hidden;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(37, 99, 235, 0.1));
+}
+
+.portfolio-spline-placeholder {
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border-accent);
+  background:
+    radial-gradient(circle at 20% 25%, rgba(124, 58, 237, 0.15), transparent 50%),
+    radial-gradient(circle at 80% 75%, rgba(37, 99, 235, 0.12), transparent 50%),
+    rgba(255, 255, 255, 0.01);
+  aspect-ratio: 9 / 11;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.portfolio-spline-placeholder spline-viewer {
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeInSpline 0.8s ease-out 0.4s forwards;
+}
+
+@keyframes fadeInSpline {
+  to {
+    opacity: 1;
+  }
 }
 
 .portfolio-card-image img {
@@ -672,6 +718,7 @@ ul, ol {
 .portfolio-card-info p {
   font-size: 0.85rem;
   color: var(--text-secondary);
+  line-height: 1.65;
 }
 
 .portfolio-card-tags {
@@ -711,6 +758,33 @@ ul, ol {
 .testimonial-card:hover {
   border-color: var(--border-accent);
   background: var(--bg-card-hover);
+}
+
+.testimonial-card--image {
+  padding: 14px;
+}
+
+.testimonial-image-wrap {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: calc(var(--radius-lg) - 4px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.testimonial-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.testimonial-source {
+  font-size: 0.78rem;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 12px 6px 6px;
 }
 
 .testimonial-stars {
@@ -900,8 +974,7 @@ ul, ol {
     padding-left: 48px;
   }
 
-  .services-grid,
-  .portfolio-grid {
+  .services-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -1083,8 +1156,37 @@ ul, ol {
     font-size: clamp(1.5rem, 6vw, 2rem);
   }
 
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    position: relative;
+  }
+
+  .portfolio-cards-wrapper {
+    gap: 16px;
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(to bottom, var(--bg-secondary) 0%, var(--bg-secondary) 60%, transparent 100%);
+    padding-bottom: 12px;
+  }
+
+  .portfolio-spline-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    border: none;
+    background: transparent;
+    border-radius: 0;
+  }
+
+  .portfolio-spline-placeholder spline-viewer {
+    opacity: 0.5;
+  }
+
   .services-grid,
-  .portfolio-grid,
   .testimonials-grid {
     grid-template-columns: 1fr;
     gap: 16px;
@@ -1115,6 +1217,10 @@ ul, ol {
   /* Testimonials */
   .testimonial-card {
     padding: 28px;
+  }
+
+  .testimonial-card--image {
+    padding: 12px;
   }
 
   .testimonial-text {
@@ -1166,7 +1272,6 @@ ul, ol {
     padding: 80px 0 40px;
   }
 
-  /* Push 3D further right on small phones */
   .spline-fullbleed {
     right: -10%;
     width: 85%;
