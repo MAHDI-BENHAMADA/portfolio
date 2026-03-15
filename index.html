@@ -71,7 +71,7 @@
         </p>
 
         <div class="hero-actions">
-          <a href="#contact" class="btn-primary">
+          <a href="#contact" class="btn-primary" data-open-modal onclick="event.preventDefault(); document.getElementById('contact-modal').classList.add('active'); document.body.style.overflow='hidden';">
             Book Your Free Demo & Assessment
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 5 7 7-7 7"/></svg>
           </a>
@@ -231,8 +231,6 @@
     </div>
   </section>
 
-    </div>
-  </section>
 
   <!-- ====== TESTIMONIALS ====== -->
   <section class="section-padding" id="testimonials">
@@ -312,7 +310,7 @@
       <div class="cta-box reveal">
         <h2>Ready to <span class="gradient-text">optimize</span> your funnel?</h2>
         <p>Get a free demo and personalized assessment of your current funnel. I'll show you exactly where you're losing leads and how to convert more visitors into paying clients.</p>
-        <a href="#" class="btn-primary" onclick="return false;">
+        <a href="#contact" class="btn-primary" data-open-modal onclick="event.preventDefault(); document.getElementById('contact-modal').classList.add('active'); document.body.style.overflow='hidden';">
           Book Your Free Demo & Assessment
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 5 7 7-7 7"/></svg>
         </a>
@@ -362,6 +360,42 @@
       </div>
     </div>
   </footer>
+
+  <!-- ====== CONTACT MODAL ====== -->
+  <div class="modal-overlay" id="contact-modal">
+    <div class="modal-box">
+      <button class="modal-close" id="modal-close" aria-label="Close modal">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+
+      <h3 class="modal-title">Let's Build Something Great</h3>
+      <p class="modal-subtitle">Tell me about your project and I'll get back to you within 24 hours.</p>
+
+      <form id="contact-form" autocomplete="on">
+        <div class="form-group">
+          <label for="contact-name">Name</label>
+          <input type="text" id="contact-name" name="name" placeholder="Your full name" required autocomplete="name">
+        </div>
+
+        <div class="form-group">
+          <label for="contact-email">Email</label>
+          <input type="email" id="contact-email" name="email" placeholder="you@example.com" required autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label for="contact-message">Message</label>
+          <textarea id="contact-message" name="message" rows="4" placeholder="Tell me about your project, goals, and timeline..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary form-submit" id="form-submit">
+          Send Message
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+
+        <div class="form-feedback" id="form-feedback"></div>
+      </form>
+    </div>
+  </div>
 
   <!-- Scripts -->
   <script src="script.js"></script>
