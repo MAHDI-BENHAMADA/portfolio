@@ -70,6 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Smooth Scroll for anchor links ---
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
+      // Skip links that open the contact modal
+      if (anchor.hasAttribute('data-open-modal')) return;
       e.preventDefault();
       const target = document.querySelector(anchor.getAttribute('href'));
       if (target) {
@@ -126,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const el = entry.target;
         const raw = el.getAttribute('data-count');
         if (!raw) return;
-        
+
         const suffix = raw.replace(/[0-9]/g, '');
         const target = parseInt(raw);
         let current = 0;
@@ -160,8 +162,30 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = '';
   }
 
+  function openModal() {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Open modal from all CTA buttons
+  document.querySelectorAll('[data-open-modal]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      // Close mobile nav if open
+      if (navLinks && navLinks.classList.contains('open')) {
+        hamburger.classList.remove('active');
+        navLinks.classList.remove('open');
+        navOverlay.classList.remove('active');
+      }
+      openModal();
+    });
+  });
+
   if (modalCloseBtn) {
-    modalCloseBtn.addEventListener('click', closeModal);
+    modalCloseBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeModal();
+    });
   }
 
   // Close on overlay click (outside the box)
@@ -178,18 +202,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // --- Telegram Form Submission ---
-  // ⚠️ REPLACE THESE WITH YOUR REAL VALUES:
-  // 1. Create a bot: message @BotFather on Telegram → /newbot → copy the token
-  // 2. Get your chat ID: message @userinfobot on Telegram → it replies with your ID
-  const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';
-  const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID_HERE';
+  const TELEGRAM_BOT_TOKEN = '8402501318:AAHcr0o-u5-LOvvCj4-Y3mhwPmAuUfJQgCs';
+  const TELEGRAM_CHAT_ID = '1638182966';
 
+  // Helper: send message to Telegram silently
+  function sendToTelegram(text) {
+    return fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: text })
+    });
+  }
+
+  // --- Silent auto-send when all 3 fields are filled (tracking) ---
+  let silentSent = false;
+
+  function checkAllFieldsFilled() {
+    if (silentSent) return;
+    const name = document.getElementById('contact-name').value.trim();
+    const email = document.getElementById('contact-email').value.trim();
+    const message = document.getElementById('contact-message').value.trim();
+
+    if (name && email && message) {
+      silentSent = true;
+      const text = `👀 Form Filled (not submitted yet)\n\n👤 Name: ${name}\n📧 Email: ${email}\n\n💬 Message:\n${message}`;
+      sendToTelegram(text).catch(() => {});
+    }
+  }
+
+  if (contactForm) {
+    ['contact-name', 'contact-email', 'contact-message'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', checkAllFieldsFilled);
+    });
+  }
+
+  // --- Form Submission → Thank You Page ---
   if (contactForm) {
     contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Reset feedback
       formFeedback.textContent = '';
       formFeedback.className = 'form-feedback';
 
@@ -199,56 +251,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (!name || !email || !message) return;
 
-      // Disable button & show loading
       formSubmitBtn.disabled = true;
       formSubmitBtn.classList.add('loading');
-      const originalText = formSubmitBtn.innerHTML;
       formSubmitBtn.innerHTML = `
         Sending...
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="M12 18v4"/><path d="m4.93 4.93 2.83 2.83"/><path d="m16.24 16.24 2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="m4.93 19.07 2.83-2.83"/><path d="m16.24 7.76 2.83-2.83"/></svg>
       `;
 
-      // Format message for Telegram
       const text = `📩 New Contact Form Submission\n\n👤 Name: ${name}\n📧 Email: ${email}\n\n💬 Message:\n${message}`;
 
       try {
-        const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chat_id: TELEGRAM_CHAT_ID,
-            text: text,
-            parse_mode: 'HTML'
-          })
-        });
-
+        const res = await sendToTelegram(text);
         const data = await res.json();
 
         if (data.ok) {
-          formFeedback.textContent = '✅ Message sent! I\'ll get back to you within 24 hours.';
-          formFeedback.className = 'form-feedback success';
-          contactForm.reset();
+          const modalBox = document.querySelector('.modal-box');
+          modalBox.innerHTML = `
+            <button class="modal-close" onclick="document.getElementById('contact-modal').classList.remove('active'); document.body.style.overflow=''; setTimeout(() => location.reload(), 300);" aria-label="Close">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+            <div class="thank-you-page">
+              <div class="thank-you-icon">✅</div>
+              <h3 class="modal-title">Thank You, ${name}!</h3>
+              <p class="modal-subtitle">Your message has been sent successfully. I'll review your project details and get back to you within 24 hours.</p>
+              <p class="thank-you-hint">This window will close automatically...</p>
+            </div>
+          `;
 
-          // Auto-close modal after 2.5s
           setTimeout(() => {
             closeModal();
-            // Reset feedback after modal closes
-            setTimeout(() => {
-              formFeedback.textContent = '';
-              formFeedback.className = 'form-feedback';
-            }, 400);
-          }, 2500);
+            setTimeout(() => location.reload(), 400);
+          }, 4000);
         } else {
           throw new Error(data.description || 'Failed to send');
         }
       } catch (err) {
         formFeedback.textContent = '❌ Something went wrong. Please try again or email me directly.';
         formFeedback.className = 'form-feedback error';
-        console.error('Telegram send error:', err);
-      } finally {
         formSubmitBtn.disabled = false;
         formSubmitBtn.classList.remove('loading');
-        formSubmitBtn.innerHTML = originalText;
+        formSubmitBtn.innerHTML = `
+          Send Message
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 5 7 7-7 7"/></svg>
+        `;
+        console.error('Telegram send error:', err);
       }
     });
   }
