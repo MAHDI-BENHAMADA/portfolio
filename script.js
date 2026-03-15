@@ -281,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
           setTimeout(() => {
             closeModal();
             setTimeout(() => location.reload(), 400);
-          }, 4000);
+          }, 6000);
         } else {
           throw new Error(data.description || 'Failed to send');
         }

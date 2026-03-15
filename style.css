@@ -1098,6 +1098,16 @@ ul, ol {
   color: var(--text-primary);
 }
 
+.footer-ig-link {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-ig-link svg {
+  flex-shrink: 0;
+}
+
 .footer-bottom {
   display: flex;
   align-items: center;
@@ -1341,7 +1351,7 @@ ul, ol {
   .services-grid,
   .testimonials-grid {
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 4px;
   }
 
   .service-card {
@@ -1349,7 +1359,35 @@ ul, ol {
   }
 
   #testimonials {
-    padding: 40px 0;
+    padding: 24px 0 32px;
+  }
+
+  #testimonials .section-header {
+    margin: 0 auto 16px;
+  }
+
+  /* Testimonials — tight spacing on mobile */
+  .testimonial-card {
+    padding: 0;
+  }
+
+  .testimonial-card--image {
+    padding: 0;
+  }
+
+  .testimonial-image-wrap {
+    height: auto;
+    border-radius: var(--radius-md);
+  }
+
+  .testimonial-image-wrap img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .testimonial-text {
+    font-size: 0.95rem;
   }
 
   /* Logos */
@@ -1368,19 +1406,6 @@ ul, ol {
   /* Portfolio cards */
   .portfolio-card-info {
     padding: 20px;
-  }
-
-  /* Testimonials */
-  .testimonial-card {
-    padding: 28px;
-  }
-
-  .testimonial-card--image {
-    padding: 12px;
-  }
-
-  .testimonial-text {
-    font-size: 0.95rem;
   }
 
   /* CTA */
