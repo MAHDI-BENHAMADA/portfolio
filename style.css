@@ -390,6 +390,15 @@ ul, ol {
   flex-wrap: wrap;
 }
 
+.hero-subtext {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 16px;
+  letter-spacing: 0.5px;
+  text-align: left;
+  width: 100%;
+}
+
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -854,7 +863,7 @@ ul, ol {
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--accent-violet);
-  margin-bottom: 24px;
+  margin-bottom: 12px;
   display: inline-block;
 }
 
