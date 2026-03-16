@@ -87,11 +87,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const splineFallback = document.getElementById('spline-fallback');
 
   function shouldLoadSpline() {
-    // 1. Skip on old/low-end devices
-    const isLowEnd = navigator.hardwareConcurrency <= 2;
+    // 1. Skip on mobile devices based on screen width
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) return false;
+
+    // 2. Skip on old/low-end devices (stricter check, requires 4 cores)
+    const isLowEnd = navigator.hardwareConcurrency < 4;
     if (isLowEnd) return false;
 
-    // 2. Skip if WebGL isn't supported
+    // 3. Skip if WebGL isn't supported
     const testCanvas = document.createElement('canvas');
     const gl = testCanvas.getContext('webgl2') || testCanvas.getContext('webgl');
     if (!gl) return false;
@@ -101,32 +105,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (splineBg) {
     if (!shouldLoadSpline()) {
-      // Mobile / low-end: never load the script, show fallback instantly
+      // Mobile / low-end: never load the script, show fallback image instantly
       splineBg.style.display = 'none';
       if (splineFallback) {
         splineFallback.style.display = 'block';
-        splineFallback.style.opacity = '1';
+        // Opacity handled by CSS animation on the img tag
       }
     } else {
-      // Desktop: Inject script dynamically
+      // Desktop / High-end: Inject script dynamically
       const script = document.createElement('script');
       script.type = 'module';
       script.src = 'https://unpkg.com/@splinetool/viewer/build/spline-viewer.js';
       document.head.appendChild(script);
 
-      // Desktop load timeout (5s) before giving up and showing fallback
+      // Desktop load timeout (5s) before giving up and showing fallback image
       const timeout = setTimeout(() => {
         if (splineFallback) {
           splineFallback.style.display = 'block';
-          splineFallback.style.opacity = '1';
         }
       }, 5000);
 
-      // Wait for spline viewer component to load its scene
+      // Check for Spline Component load
       const checkInterval = setInterval(() => {
         const viewer = document.getElementById('spline-viewer');
-        if (viewer && viewer._componentLoaded) { // or similar indicator if available, though `load` event is safer
-           // Spline fires a `load` event when the scene file is fully evaluated
+        if (viewer && viewer._componentLoaded) {
+           // Component loaded
         }
       }, 100);
 
