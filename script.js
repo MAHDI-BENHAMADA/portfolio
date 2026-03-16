@@ -87,15 +87,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const splineFallback = document.getElementById('spline-fallback');
 
   function shouldLoadSpline() {
-    // 1. Skip on mobile devices based on screen width
-    const isMobile = window.innerWidth <= 768;
-    if (isMobile) return false;
-
-    // 2. Skip on old/low-end devices (stricter check, requires 4 cores)
+    // 1. Skip on old/low-end devices (requires at least 4 hardware cores)
     const isLowEnd = navigator.hardwareConcurrency < 4;
     if (isLowEnd) return false;
 
-    // 3. Skip if WebGL isn't supported
+    // 2. Skip if WebGL isn't supported
     const testCanvas = document.createElement('canvas');
     const gl = testCanvas.getContext('webgl2') || testCanvas.getContext('webgl');
     if (!gl) return false;
