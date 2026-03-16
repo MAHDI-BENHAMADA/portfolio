@@ -82,25 +82,39 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- Spline fallback logic ---
+  // --- Spline dynamic loading & fallback logic ---
   const splineBg = document.getElementById('spline-bg');
   const splineFallback = document.getElementById('spline-fallback');
-  const splineViewer = document.getElementById('spline-viewer');
 
   function shouldLoadSpline() {
+    // 1. Skip on old/low-end devices
     const isLowEnd = navigator.hardwareConcurrency <= 2;
+    if (isLowEnd) return false;
+
+    // 2. Skip if WebGL isn't supported
     const testCanvas = document.createElement('canvas');
     const gl = testCanvas.getContext('webgl2') || testCanvas.getContext('webgl');
-    const noWebGL = !gl;
-    return !isLowEnd && !noWebGL;
+    if (!gl) return false;
+
+    return true;
   }
 
-  if (splineBg && splineViewer) {
+  if (splineBg) {
     if (!shouldLoadSpline()) {
+      // Mobile / low-end: never load the script, show fallback instantly
       splineBg.style.display = 'none';
-      if (splineFallback) splineFallback.style.display = 'block';
+      if (splineFallback) {
+        splineFallback.style.display = 'block';
+        splineFallback.style.opacity = '1';
+      }
     } else {
-      // Load timeout — show fallback if Spline hasn't loaded in 5s
+      // Desktop: Inject script dynamically
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.src = 'https://unpkg.com/@splinetool/viewer/build/spline-viewer.js';
+      document.head.appendChild(script);
+
+      // Desktop load timeout (5s) before giving up and showing fallback
       const timeout = setTimeout(() => {
         if (splineFallback) {
           splineFallback.style.display = 'block';
@@ -108,14 +122,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }, 5000);
 
-      splineViewer.addEventListener('load', () => {
-        clearTimeout(timeout);
-        splineBg.classList.add('loaded');
-        if (splineFallback) {
-          splineFallback.style.transition = 'opacity 0.6s ease';
-          splineFallback.style.opacity = '0';
+      // Wait for spline viewer component to load its scene
+      const checkInterval = setInterval(() => {
+        const viewer = document.getElementById('spline-viewer');
+        if (viewer && viewer._componentLoaded) { // or similar indicator if available, though `load` event is safer
+           // Spline fires a `load` event when the scene file is fully evaluated
         }
-      });
+      }, 100);
+
+      // We attach the load listener directly to the body to catch it bubbling up from the viewer
+      document.body.addEventListener('load', (e) => {
+        if (e.target.tagName === 'SPLINE-VIEWER') {
+          clearTimeout(timeout);
+          clearInterval(checkInterval);
+          splineBg.classList.add('loaded');
+          if (splineFallback) {
+            splineFallback.style.transition = 'opacity 0.6s ease';
+            splineFallback.style.opacity = '0';
+            setTimeout(() => { splineFallback.style.display = 'none'; }, 600);
+          }
+        }
+      }, true);
     }
   }
 
