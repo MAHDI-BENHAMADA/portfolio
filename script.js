@@ -87,11 +87,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const splineFallback = document.getElementById('spline-fallback');
 
   function shouldLoadSpline() {
-    // 1. Skip on old/low-end devices (requires at least 4 hardware cores)
+    // 1. Skip entirely on mobile screens
+    if (window.innerWidth <= 768) return false;
+
+    // 2. Skip on old/low-end devices (requires at least 4 hardware cores)
     const isLowEnd = navigator.hardwareConcurrency < 4;
     if (isLowEnd) return false;
 
-    // 2. Skip if WebGL isn't supported
+    // 3. Skip if WebGL isn't supported
     const testCanvas = document.createElement('canvas');
     const gl = testCanvas.getContext('webgl2') || testCanvas.getContext('webgl');
     if (!gl) return false;
@@ -125,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const checkInterval = setInterval(() => {
         const viewer = document.getElementById('spline-viewer');
         if (viewer && viewer._componentLoaded) {
-           // Component loaded
+          // Component loaded
         }
       }, 100);
 
@@ -252,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (name && email && message) {
       silentSent = true;
       const text = `👀 Form Filled (not submitted yet)\n\n👤 Name: ${name}\n📧 Email: ${email}\n\n💬 Message:\n${message}`;
-      sendToTelegram(text).catch(() => {});
+      sendToTelegram(text).catch(() => { });
     }
   }
 
