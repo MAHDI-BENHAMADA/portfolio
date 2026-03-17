@@ -49,16 +49,19 @@
 
   <!-- ====== HERO ====== -->
   <section class="hero" id="hero">
-    <!-- Spline 3D — full-bleed background layer behind hero + navbar -->
-    <div class="spline-fullbleed" id="spline-bg">
-      <spline-viewer id="spline-viewer" url="https://prod.spline.design/rKRbcI-iicaHD1RB/scene.splinecode"
-        background="transparent" events-target="none">
-      </spline-viewer>
+    <!-- Unicorn Studio Animated Background -->
+    <div class="hero-unicorn-bg">
+      <div style="width: 1440px; height: 900px" data-us-project="ukFfrrHJxXoKSyZ3Rvh2"></div>
     </div>
-
-    <!-- Fallback for mobile / low-end devices -->
-    <div class="spline-fallback" id="spline-fallback">
-      <img src="assets/Unchained.png" alt="Hero 3D Visual" id="spline-fallback-img">
+    <script type="text/javascript">!function(){var u=window.UnicornStudio;if(u&&u.init){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){u.init()})}else{u.init()}}else{window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.1.4/dist/unicornStudio.umd.js",i.onload=function(){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){UnicornStudio.init()})}else{UnicornStudio.init()}},(document.head||document.body).appendChild(i)}}();</script>
+    <div class="hero-unicorn-overlay"></div>
+    
+    <!-- Beautiful functional badge that hides the Canvas watermark -->
+    <div class="hero-unicorn-watermark-cover">
+      <a href="#services" class="scroll-down-badge">
+        <span class="scroll-text">Scroll Down</span>
+        <iconify-icon icon="ph:arrow-down-light" class="scroll-arrow"></iconify-icon>
+      </a>
     </div>
 
     <div class="container hero-grid">

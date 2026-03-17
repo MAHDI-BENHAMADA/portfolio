@@ -82,72 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- Spline dynamic loading & fallback logic ---
-  const splineBg = document.getElementById('spline-bg');
-  const splineFallback = document.getElementById('spline-fallback');
-
-  function shouldLoadSpline() {
-    // 1. Skip entirely on mobile screens
-    if (window.innerWidth <= 768) return false;
-
-    // 2. Skip on old/low-end devices (requires at least 4 hardware cores)
-    const isLowEnd = navigator.hardwareConcurrency < 4;
-    if (isLowEnd) return false;
-
-    // 3. Skip if WebGL isn't supported
-    const testCanvas = document.createElement('canvas');
-    const gl = testCanvas.getContext('webgl2') || testCanvas.getContext('webgl');
-    if (!gl) return false;
-
-    return true;
-  }
-
-  if (splineBg) {
-    if (!shouldLoadSpline()) {
-      // Mobile / low-end: never load the script, show fallback image instantly
-      splineBg.style.display = 'none';
-      if (splineFallback) {
-        splineFallback.style.display = 'block';
-        // Opacity handled by CSS animation on the img tag
-      }
-    } else {
-      // Desktop / High-end: Inject script dynamically
-      const script = document.createElement('script');
-      script.type = 'module';
-      script.src = 'https://unpkg.com/@splinetool/viewer/build/spline-viewer.js';
-      document.head.appendChild(script);
-
-      // Desktop load timeout (5s) before giving up and showing fallback image
-      const timeout = setTimeout(() => {
-        if (splineFallback) {
-          splineFallback.style.display = 'block';
-        }
-      }, 5000);
-
-      // Check for Spline Component load
-      const checkInterval = setInterval(() => {
-        const viewer = document.getElementById('spline-viewer');
-        if (viewer && viewer._componentLoaded) {
-          // Component loaded
-        }
-      }, 100);
-
-      // We attach the load listener directly to the body to catch it bubbling up from the viewer
-      document.body.addEventListener('load', (e) => {
-        if (e.target.tagName === 'SPLINE-VIEWER') {
-          clearTimeout(timeout);
-          clearInterval(checkInterval);
-          splineBg.classList.add('loaded');
-          if (splineFallback) {
-            splineFallback.style.transition = 'opacity 0.6s ease';
-            splineFallback.style.opacity = '0';
-            setTimeout(() => { splineFallback.style.display = 'none'; }, 600);
-          }
-        }
-      }, true);
-    }
-  }
-
+  // Spline logic removed (Replaced with Unicorn Studio background)
   // --- Counter animation for stats ---
   const stats = document.querySelectorAll('.stat h3');
 
