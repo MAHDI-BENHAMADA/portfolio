@@ -314,16 +314,19 @@ ol {
 }
 
 /* 
- * Instead of squishing the WebGL canvas, we let it maintain 
- * its native 1440x900 aspect ratio. We forcefully scale it 
- * using vw/vh ratios to ensure it fully bleeds past the 
- * edges without leaving transparent side bezels on ultrawide PC monitors.
+ * Instead of squishing or using CSS scale transforms which can fail or leave black bezels,
+ * we force the Unicorn Studio container to act like an 'object-fit: cover' video.
+ * It maintains a perfect 16:10 (1440x900) aspect ratio with absolute screen-covering limits.
  */
 .hero-unicorn-bg>div {
-  width: 1440px;
-  height: 900px;
-  transform: scale(max(100vw / 1440, 100vh / 900) * 1.15); /* Multiplied by 1.15 to generate a generous overscan, removing bezels entirely */
-  transform-origin: center;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  width: 100vw !important;
+  height: 62.5vw !important; /* 100vw * (900/1440) = 62.5vw */
+  min-height: 100vh !important;
+  min-width: 160vh !important; /* 100vh * (1440/900) = 160vh */
+  transform: translate(-50%, -50%) !important;
 }
 
 /* Hide Unicorn Studio Watermark Technique 1: CSS Override */
@@ -1346,34 +1349,109 @@ a[href*="unicorn"] {
     overflow: hidden;
   }
 
+  /* Completely hide Unicorn Studio and watermark cover on mobile */
+  .hero-unicorn-bg,
+  .hero-unicorn-watermark-cover,
+  .hero-unicorn-overlay {
+    display: none !important;
+  }
 
-  /* Subtle ambient glow behind centered content */
+  /* Subtle native CSS animated gradient mesh for mobile — more depth */
   .hero::before {
     content: '';
     position: absolute;
-    top: 15%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(124, 58, 237, 0.12) 0%, transparent 70%);
-    border-radius: 50%;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 30%, rgba(124, 58, 237, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(37, 99, 235, 0.06) 0%, transparent 45%),
+                radial-gradient(circle at 50% 80%, rgba(200, 80, 255, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 80% 15%, rgba(100, 200, 255, 0.03) 0%, transparent 30%);
     pointer-events: none;
     z-index: 0;
+    animation: mobileGradientMesh 16s ease-in-out infinite alternate;
   }
 
   .hero::after {
     content: '';
     position: absolute;
-    bottom: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 250px;
-    height: 250px;
-    background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 70%);
-    border-radius: 50%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at 50% 0%, rgba(124, 58, 237, 0.05) 0%, transparent 60%);
     pointer-events: none;
     z-index: 0;
+    animation: mobileGlowPulse 8s ease-in-out infinite alternate;
+  }
+
+  @keyframes mobileGradientMesh {
+    0% { transform: scale(1) translate(0, 0) rotate(0deg); }
+    25% { transform: scale(1.03) translate(-1.5%, 1%) rotate(0.5deg); }
+    50% { transform: scale(0.97) translate(1%, -1.5%) rotate(-0.3deg); }
+    75% { transform: scale(1.02) translate(0.5%, 1.5%) rotate(0.2deg); }
+    100% { transform: scale(1) translate(-0.5%, -0.5%) rotate(0deg); }
+  }
+
+  @keyframes mobileGlowPulse {
+    0% { opacity: 0.6; }
+    100% { opacity: 1; }
+  }
+
+  /* ---- Mobile Hero Intro Animations ---- */
+  /* All hero children start invisible; JS adds .hero-intro-ready to trigger the cascade */
+  .hero-badge,
+  .hero-title,
+  .hero-description,
+  .hero-actions,
+  .hero-subtext,
+  .hero-stats {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  }
+
+  /* Staggered fade-in once JS adds the trigger class */
+  .hero-content.hero-intro-ready .hero-badge {
+    opacity: 1; transform: translateY(0);
+    transition-delay: 0s;
+  }
+  .hero-content.hero-intro-ready .hero-title {
+    opacity: 1; transform: translateY(0);
+    transition-delay: 0.15s;
+  }
+  .hero-content.hero-intro-ready .hero-description {
+    opacity: 1; transform: translateY(0);
+    transition-delay: 1.8s; /* After typewriter finishes */
+  }
+  .hero-content.hero-intro-ready .hero-actions {
+    opacity: 1; transform: translateY(0);
+    transition-delay: 2.2s;
+  }
+  .hero-content.hero-intro-ready .hero-subtext {
+    opacity: 1; transform: translateY(0);
+    transition-delay: 2.5s;
+  }
+  .hero-content.hero-intro-ready .hero-stats {
+    opacity: 1; transform: translateY(0);
+    transition-delay: 2.8s;
+  }
+
+  /* Typewriter cursor */
+  .typewriter-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--accent-purple);
+    margin-left: 3px;
+    vertical-align: text-bottom;
+    animation: cursorBlink 0.7s step-end infinite;
+  }
+
+  @keyframes cursorBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
   }
 
   /* Text content — centered on mobile */
@@ -1428,11 +1506,11 @@ a[href*="unicorn"] {
   /* Glowing stats container on mobile */
   .hero-stats {
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* allow wrapping to avoid overlap */
     justify-content: center;
-    gap: 0;
+    gap: 16px 12px; /* proper spacing between stats */
     margin-top: 36px;
-    padding: 24px 20px;
+    padding: 24px 16px;
     border-top: none;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(124, 58, 237, 0.2);
@@ -1445,7 +1523,7 @@ a[href*="unicorn"] {
     -webkit-backdrop-filter: blur(12px);
     width: 100%;
     position: relative;
-    overflow: hidden;
+    overflow: clip; /* Clips shimmer pseudo-element but doesn't create a scroll container */
   }
 
   /* Subtle light reflection sweep */
@@ -1479,18 +1557,19 @@ a[href*="unicorn"] {
   }
 
   .stat {
-    flex: 1;
-    min-width: 90px;
+    flex: 1 1 auto; /* Allow wrapping and sizing based on content */
+    min-width: 0; 
     text-align: center;
     padding: 8px 4px;
   }
 
   .stat h3 {
-    font-size: 1.3rem;
+    font-size: clamp(0.95rem, 3.8vw, 1.25rem); /* Slightly smaller to help fit 3 in a row */
+    letter-spacing: -0.3px; /* Condense horizontally */
   }
 
   .stat p {
-    font-size: 0.68rem;
+    font-size: 0.65rem;
   }
 
   /* Sections */

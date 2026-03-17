@@ -82,7 +82,93 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Spline logic removed (Replaced with Unicorn Studio background)
+  // --- Mobile Hero Intro Animation (typewriter + staggered fade-in) ---
+  const heroContent = document.querySelector('.hero-content');
+  const heroTitle = document.querySelector('.hero-title');
+  const isMobile = window.innerWidth <= 768;
+
+  if (heroContent && heroTitle) {
+    if (isMobile) {
+      // Store the original HTML content (preserves <span class="highlight">)
+      const originalHTML = heroTitle.innerHTML;
+      // Extract pure text for the typewriter
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = originalHTML;
+      const fullText = tempDiv.textContent;
+
+      // Clear the title and add cursor
+      heroTitle.innerHTML = '';
+      const cursor = document.createElement('span');
+      cursor.className = 'typewriter-cursor';
+      heroTitle.appendChild(cursor);
+
+      // Trigger the staggered fade-in (badge fades in immediately, title fades in at 0.15s)
+      requestAnimationFrame(() => {
+        heroContent.classList.add('hero-intro-ready');
+      });
+
+      // Start typing after the title element has faded in (~400ms)
+      let charIndex = 0;
+      const typingSpeed = 35; // ms per character
+
+      setTimeout(() => {
+        const typeInterval = setInterval(() => {
+          if (charIndex < fullText.length) {
+            // Build the typed portion, re-wrapping the highlight span as we go
+            const typed = fullText.substring(0, charIndex + 1);
+            // Rebuild the HTML with the highlight span around the correct portion
+            heroTitle.innerHTML = buildTypedHTML(typed, originalHTML) + '<span class="typewriter-cursor"></span>';
+            charIndex++;
+          } else {
+            clearInterval(typeInterval);
+            // Restore the full original HTML and remove cursor after a beat
+            setTimeout(() => {
+              heroTitle.innerHTML = originalHTML;
+            }, 1500);
+          }
+        }, typingSpeed);
+      }, 500);
+
+    } else {
+      // Desktop: no typewriter, just show everything instantly
+      if (heroContent) heroContent.classList.add('hero-intro-ready');
+    }
+  }
+
+  /**
+   * Rebuilds the typed substring while preserving the <span class="highlight"> wrapper.
+   * Scans the original HTML to determine where the highlight span starts/ends in the text.
+   */
+  function buildTypedHTML(typed, originalHTML) {
+    // Extract the highlight text from original
+    const highlightMatch = originalHTML.match(/<span class="highlight">(.*?)<\/span>/);
+    if (!highlightMatch) return typed;
+
+    const highlightText = highlightMatch[1];
+    // Find where the highlight starts in the full plain text
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = originalHTML;
+    const fullText = tempDiv.textContent;
+    const hlStart = fullText.indexOf(highlightText);
+    const hlEnd = hlStart + highlightText.length;
+
+    if (typed.length <= hlStart) {
+      // Haven't reached the highlight yet
+      return typed;
+    } else if (typed.length <= hlEnd) {
+      // Partially inside the highlight
+      const before = typed.substring(0, hlStart);
+      const inside = typed.substring(hlStart);
+      return before + '<span class="highlight">' + inside + '</span>';
+    } else {
+      // Past the highlight
+      const before = typed.substring(0, hlStart);
+      const inside = typed.substring(hlStart, hlEnd);
+      const after = typed.substring(hlEnd);
+      return before + '<span class="highlight">' + inside + '</span>' + after;
+    }
+  }
+
   // --- Counter animation for stats ---
   const stats = document.querySelectorAll('.stat h3');
 
