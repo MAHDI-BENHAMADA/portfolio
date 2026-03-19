@@ -270,18 +270,18 @@ document.addEventListener('DOMContentLoaded', () => {
   function checkAllFieldsFilled() {
     if (silentSent) return;
     const name = document.getElementById('contact-name').value.trim();
-    const email = document.getElementById('contact-email').value.trim();
+    const ig = document.getElementById('contact-ig').value.trim();
     const message = document.getElementById('contact-message').value.trim();
 
-    if (name && email && message) {
+    if (name && ig && message) {
       silentSent = true;
-      const text = `👀 Form Filled (not submitted yet)\n\n👤 Name: ${name}\n📧 Email: ${email}\n\n💬 Message:\n${message}`;
+      const text = `👀 Form Filled (not submitted yet)\n\n👤 Name: ${name}\n📱 Instagram: ${ig}\n\n💬 Message:\n${message}`;
       sendToTelegram(text).catch(() => { });
     }
   }
 
   if (contactForm) {
-    ['contact-name', 'contact-email', 'contact-message'].forEach(id => {
+    ['contact-name', 'contact-ig', 'contact-message'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.addEventListener('input', checkAllFieldsFilled);
     });
@@ -296,10 +296,10 @@ document.addEventListener('DOMContentLoaded', () => {
       formFeedback.className = 'form-feedback';
 
       const name = document.getElementById('contact-name').value.trim();
-      const email = document.getElementById('contact-email').value.trim();
+      const ig = document.getElementById('contact-ig').value.trim();
       const message = document.getElementById('contact-message').value.trim();
 
-      if (!name || !email || !message) return;
+      if (!name || !ig || !message) return;
 
       formSubmitBtn.disabled = true;
       formSubmitBtn.classList.add('loading');
@@ -308,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="M12 18v4"/><path d="m4.93 4.93 2.83 2.83"/><path d="m16.24 16.24 2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="m4.93 19.07 2.83-2.83"/><path d="m16.24 7.76 2.83-2.83"/></svg>
       `;
 
-      const text = `📩 New Contact Form Submission\n\n👤 Name: ${name}\n📧 Email: ${email}\n\n💬 Message:\n${message}`;
+      const text = `📩 New Contact Form Submission\n\n👤 Name: ${name}\n📱 Instagram: ${ig}\n\n💬 Message:\n${message}`;
 
       try {
         const res = await sendToTelegram(text);
