@@ -323,9 +323,11 @@ ol {
   top: 50% !important;
   left: 50% !important;
   width: 100vw !important;
-  height: 62.5vw !important; /* 100vw * (900/1440) = 62.5vw */
+  height: 62.5vw !important;
+  /* 100vw * (900/1440) = 62.5vw */
   min-height: 100vh !important;
-  min-width: 160vh !important; /* 100vh * (1440/900) = 160vh */
+  min-width: 160vh !important;
+  /* 100vh * (1440/900) = 160vh */
   transform: translate(-50%, -50%) !important;
 }
 
@@ -1365,9 +1367,9 @@ a[href*="unicorn"] {
     width: 200%;
     height: 200%;
     background: radial-gradient(circle at 30% 30%, rgba(124, 58, 237, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 70% 60%, rgba(37, 99, 235, 0.06) 0%, transparent 45%),
-                radial-gradient(circle at 50% 80%, rgba(200, 80, 255, 0.04) 0%, transparent 40%),
-                radial-gradient(circle at 80% 15%, rgba(100, 200, 255, 0.03) 0%, transparent 30%);
+      radial-gradient(circle at 70% 60%, rgba(37, 99, 235, 0.06) 0%, transparent 45%),
+      radial-gradient(circle at 50% 80%, rgba(200, 80, 255, 0.04) 0%, transparent 40%),
+      radial-gradient(circle at 80% 15%, rgba(100, 200, 255, 0.03) 0%, transparent 30%);
     pointer-events: none;
     z-index: 0;
     animation: mobileGradientMesh 16s ease-in-out infinite alternate;
@@ -1387,16 +1389,35 @@ a[href*="unicorn"] {
   }
 
   @keyframes mobileGradientMesh {
-    0% { transform: scale(1) translate(0, 0) rotate(0deg); }
-    25% { transform: scale(1.03) translate(-1.5%, 1%) rotate(0.5deg); }
-    50% { transform: scale(0.97) translate(1%, -1.5%) rotate(-0.3deg); }
-    75% { transform: scale(1.02) translate(0.5%, 1.5%) rotate(0.2deg); }
-    100% { transform: scale(1) translate(-0.5%, -0.5%) rotate(0deg); }
+    0% {
+      transform: scale(1) translate(0, 0) rotate(0deg);
+    }
+
+    25% {
+      transform: scale(1.03) translate(-1.5%, 1%) rotate(0.5deg);
+    }
+
+    50% {
+      transform: scale(0.97) translate(1%, -1.5%) rotate(-0.3deg);
+    }
+
+    75% {
+      transform: scale(1.02) translate(0.5%, 1.5%) rotate(0.2deg);
+    }
+
+    100% {
+      transform: scale(1) translate(-0.5%, -0.5%) rotate(0deg);
+    }
   }
 
   @keyframes mobileGlowPulse {
-    0% { opacity: 0.6; }
-    100% { opacity: 1; }
+    0% {
+      opacity: 0.6;
+    }
+
+    100% {
+      opacity: 1;
+    }
   }
 
   /* ---- Mobile Hero Intro Animations ---- */
@@ -1414,27 +1435,39 @@ a[href*="unicorn"] {
 
   /* Staggered fade-in once JS adds the trigger class */
   .hero-content.hero-intro-ready .hero-badge {
-    opacity: 1; transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
     transition-delay: 0s;
   }
+
   .hero-content.hero-intro-ready .hero-title {
-    opacity: 1; transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
     transition-delay: 0.15s;
   }
+
   .hero-content.hero-intro-ready .hero-description {
-    opacity: 1; transform: translateY(0);
-    transition-delay: 1.8s; /* After typewriter finishes */
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 1.8s;
+    /* After typewriter finishes */
   }
+
   .hero-content.hero-intro-ready .hero-actions {
-    opacity: 1; transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
     transition-delay: 2.2s;
   }
+
   .hero-content.hero-intro-ready .hero-subtext {
-    opacity: 1; transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
     transition-delay: 2.5s;
   }
+
   .hero-content.hero-intro-ready .hero-stats {
-    opacity: 1; transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
     transition-delay: 2.8s;
   }
 
@@ -1450,8 +1483,15 @@ a[href*="unicorn"] {
   }
 
   @keyframes cursorBlink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0;
+    }
   }
 
   /* Text content — centered on mobile */
@@ -1506,9 +1546,11 @@ a[href*="unicorn"] {
   /* Glowing stats container on mobile */
   .hero-stats {
     flex-direction: row;
-    flex-wrap: wrap; /* allow wrapping to avoid overlap */
+    flex-wrap: wrap;
+    /* allow wrapping to avoid overlap */
     justify-content: center;
-    gap: 16px 12px; /* proper spacing between stats */
+    gap: 16px 12px;
+    /* proper spacing between stats */
     margin-top: 36px;
     padding: 24px 16px;
     border-top: none;
@@ -1523,7 +1565,8 @@ a[href*="unicorn"] {
     -webkit-backdrop-filter: blur(12px);
     width: 100%;
     position: relative;
-    overflow: clip; /* Clips shimmer pseudo-element but doesn't create a scroll container */
+    overflow: clip;
+    /* Clips shimmer pseudo-element but doesn't create a scroll container */
   }
 
   /* Subtle light reflection sweep */
@@ -1557,15 +1600,18 @@ a[href*="unicorn"] {
   }
 
   .stat {
-    flex: 1 1 auto; /* Allow wrapping and sizing based on content */
-    min-width: 0; 
+    flex: 1 1 auto;
+    /* Allow wrapping and sizing based on content */
+    min-width: 0;
     text-align: center;
     padding: 8px 4px;
   }
 
   .stat h3 {
-    font-size: clamp(0.95rem, 3.8vw, 1.25rem); /* Slightly smaller to help fit 3 in a row */
-    letter-spacing: -0.3px; /* Condense horizontally */
+    font-size: clamp(0.95rem, 3.8vw, 1.25rem);
+    /* Slightly smaller to help fit 3 in a row */
+    letter-spacing: -0.3px;
+    /* Condense horizontally */
   }
 
   .stat p {
